@@ -4,12 +4,12 @@ import java.util.*;
 
 public class GozintaChain {
 
-    private List<List<Integer>> solutions;
+    private List<List<Long>> solutions;
 
-    private List<Integer> generateDivisors(final int n) {
-        List<Integer> divisor = new ArrayList<Integer>();
-        final int limit = (int)Math.sqrt(n);
-        for (int i = 1; i <= limit; i++) {
+    private List<Long> generateDivisors(final long n) {
+        List<Long> divisor = new ArrayList<>();
+        final long limit = (long)Math.sqrt(n);
+        for (long i = 1; i <= limit; i++) {
             if (n % i == 0) {
                 divisor.add(i);
                 if (n / i != i)
@@ -20,8 +20,8 @@ public class GozintaChain {
         return divisor;
     }
 
-    private Map<Integer, List<Integer>> generateGraph(final List<Integer> divisor) {
-        Map<Integer, List<Integer>> graph = new TreeMap<>();
+    private Map<Long, List<Long>> generateGraph(final List<Long> divisor) {
+        Map<Long, List<Long>> graph = new TreeMap<>();
         for (int i = 0; i < divisor.size(); i++) {
             graph.put(divisor.get(i), new LinkedList<>());
             for (int j = i + 1; j < divisor.size(); j++) {
@@ -33,24 +33,24 @@ public class GozintaChain {
     }
 
 
-    private void buildPaths(final Map<Integer, List<Integer>> graph, final LinkedList<Integer> currentPath, int currentNode) {
+    private void buildPaths(final Map<Long, List<Long>> graph, final LinkedList<Long> currentPath, final long currentNode) {
         if (graph.get(currentNode).size() == 0)
             solutions.add(new LinkedList<>(currentPath));
 
-        for (int neighbor: graph.get(currentNode)) {
+        for (long neighbor: graph.get(currentNode)) {
             currentPath.add(neighbor);
             buildPaths(graph, currentPath, neighbor);
             currentPath.removeLast();
         }
     }
 
-    public List<List<Integer>> solve(final int n) {
-        List<Integer> divisors = generateDivisors(n);
-        Map<Integer, List<Integer>> graph = generateGraph(divisors);
-        LinkedList<Integer> currentPath = new LinkedList<>();
-        currentPath.add(1);
+    public List<List<Long>> solve(final long n) {
+        List<Long> divisors = generateDivisors(n);
+        Map<Long, List<Long>> graph = generateGraph(divisors);
+        LinkedList<Long> currentPath = new LinkedList<>();
+        currentPath.add(1L);
         solutions = new LinkedList<>();
-        buildPaths(graph, currentPath, 1);
+        buildPaths(graph, currentPath, 1L);
         return solutions;
     }
 }

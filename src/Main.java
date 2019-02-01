@@ -9,12 +9,12 @@ public class Main {
         Scanner is = new Scanner(System.in);
         GozintaChain loadProblem = new GozintaChain();
 
-        System.out.println("Enter the number:\t");
-        int n = is.nextInt();
-        List<List<Integer>> chains = loadProblem.solve(n);
-        System.out.println("The number g(n) is:" + chains.size());
+        System.out.print("Enter the number:\t");
+        long n = is.nextLong();
+        List<List<Long>> chains = loadProblem.solve(n);
+        System.out.println("The number g(n) is: \t" + chains.size());
         System.out.println("The chains are:");
-        for (List<Integer> chain: chains)
+        for (List<Long> chain: chains)
             System.out.println(chain);
     }
 }
