@@ -12,9 +12,11 @@ public class Main {
         System.out.print("Enter the number:\t");
         long n = is.nextLong();
         List<List<Long>> chains = loadProblem.solve(n);
-        System.out.println("The number g(n) is: \t" + chains.size());
+
         System.out.println("The chains are:");
         for (List<Long> chain: chains)
             System.out.println(chain);
+
+        System.out.println("The number g(n) is: \t" + chains.size());
     }
 }

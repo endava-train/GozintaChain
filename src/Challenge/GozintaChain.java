@@ -4,8 +4,6 @@ import java.util.*;
 
 public class GozintaChain {
 
-    private List<List<Long>> solutions;
-
     private List<Long> generateDivisors(final long n) {
         List<Long> divisor = new ArrayList<>();
         final long limit = (long)Math.sqrt(n);
@@ -33,24 +31,23 @@ public class GozintaChain {
     }
 
 
-    private void buildPaths(final Map<Long, List<Long>> graph, final LinkedList<Long> currentPath, final long currentNode) {
+    private List<List<Long>> buildPaths(final Map<Long, List<Long>> graph, final LinkedList<Long> currentPath, final long currentNode) {
+        List<List<Long>> solutions = new LinkedList<>();
         if (graph.get(currentNode).size() == 0)
-            solutions.add(new LinkedList<>(currentPath));
+            solutions.add(currentPath);
 
         for (long neighbor: graph.get(currentNode)) {
-            currentPath.add(neighbor);
-            buildPaths(graph, currentPath, neighbor);
-            currentPath.removeLast();
+            final LinkedList<Long> currentPathTmp = new LinkedList<Long>(currentPath) {{ add(neighbor); }};
+            solutions.addAll(buildPaths(graph, currentPathTmp, neighbor));
         }
+        return solutions;
     }
 
     public List<List<Long>> solve(final long n) {
         List<Long> divisors = generateDivisors(n);
         Map<Long, List<Long>> graph = generateGraph(divisors);
-        LinkedList<Long> currentPath = new LinkedList<>();
-        currentPath.add(1L);
-        solutions = new LinkedList<>();
-        buildPaths(graph, currentPath, 1L);
+        LinkedList<Long> currentPath = new LinkedList<Long>() {{ add(1L); }};
+        List<List<Long>> solutions = buildPaths(graph, currentPath, 1L);
         return solutions;
     }
 }
