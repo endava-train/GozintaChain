@@ -1,5 +1,4 @@
 import Challenge.GozintaChain;
-
 import java.util.List;
 import java.util.Scanner;
 
