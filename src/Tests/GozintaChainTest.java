@@ -18,8 +18,12 @@ class GozintaChainTest {
         answer.put(17L, 1L);
         answer.put(199L, 1L);
         answer.put(7919L, 1L);
-        for (final long n: answer.keySet())
-            assertEquals(answer.get(n), loadProblem.solve(n).size());
+
+        for (Map.Entry<Long,Long> entry : answer.entrySet()) {
+            long key = entry.getKey();
+            long value = entry.getValue();
+            assertEquals(value, loadProblem.solve(key).size());
+        }
     }
 
     @Test
@@ -27,16 +31,16 @@ class GozintaChainTest {
         final GozintaChain loadProblem = new GozintaChain();
         final Map<Long, List<List<Long>>> answer = new TreeMap<>();
         answer.put(12L, new LinkedList<>());
-        answer.get(12L).add(new LinkedList<Long>(){{ add(1L); add(12L); }});
-        answer.get(12L).add(new LinkedList<Long>(){{ add(1L); add(2L); add(12L); }});
-        answer.get(12L).add(new LinkedList<Long>(){{ add(1L); add(2L); add(4L); add(12L); }});
-        answer.get(12L).add(new LinkedList<Long>(){{ add(1L); add(2L); add(6L); add(12L); }});
-        answer.get(12L).add(new LinkedList<Long>(){{ add(1L); add(3L); add(12L); }});
-        answer.get(12L).add(new LinkedList<Long>(){{ add(1L); add(3L); add(6L); add(12L); }});
-        answer.get(12L).add(new LinkedList<Long>(){{ add(1L); add(4L); add(12L); }});
-        answer.get(12L).add(new LinkedList<Long>(){{ add(1L); add(6L); add(12L); }});
+        answer.get(12L).add(Arrays.asList(1L, 12L));
+        answer.get(12L).add(Arrays.asList(1L, 2L, 12L));
+        answer.get(12L).add(Arrays.asList(1L, 2L, 4L, 12L));
+        answer.get(12L).add(Arrays.asList(1L, 2L, 6L, 12L));
+        answer.get(12L).add(Arrays.asList(1L, 3L, 12L));
+        answer.get(12L).add(Arrays.asList(1L, 3L, 6L, 12L));
+        answer.get(12L).add(Arrays.asList(1L, 4L, 12L));
+        answer.get(12L).add(Arrays.asList(1L, 6L, 12L));
         answer.put(19L, new LinkedList<>());
-        answer.get(19L).add(new LinkedList<Long>(){{ add(1L); add(19L); }});
+        answer.get(19L).add(Arrays.asList(1L, 19L));
 
         final Comparator<List<Long>> lexicographicalComparator = (list1, list2) -> {
             for (int i = 0; i < Math.min(list1.size(), list2.size()); i++) {
@@ -45,12 +49,15 @@ class GozintaChainTest {
             }
             return list1.size() - list2.size();
         };
-        
-        for (final long n: answer.keySet()) {
-            List<List<Long>> solutions = loadProblem.solve(n);
-            answer.get(n).sort(lexicographicalComparator);
+
+        for (Map.Entry<Long,List<List<Long>>> entry : answer.entrySet()) {
+            long key = entry.getKey();
+            List<List<Long>> value = entry.getValue();
+
+            List<List<Long>> solutions = loadProblem.solve(key);
+            answer.get(key).sort(lexicographicalComparator);
             solutions.sort(lexicographicalComparator);
-            assertEquals(answer.get(n).toString(),solutions.toString());
+            assertEquals(value.toString(), solutions.toString());
         }
 
     }
