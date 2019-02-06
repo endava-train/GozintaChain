@@ -6,7 +6,7 @@ public class GozintaChain {
 
     private List<Long> generateDivisors(final long n) {
         List<Long> divisor = new ArrayList<>();
-        final long limit = (long)Math.sqrt(n);
+        final long limit = (long) Math.sqrt(n);
         for (long i = 1; i <= limit; i++) {
             if (n % i == 0) {
                 divisor.add(i);
